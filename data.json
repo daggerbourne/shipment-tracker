@@ -1,0 +1,26 @@
+[
+  {
+    "id": "8e8f5981-22fa-479f-968a-abc23bd72181",
+    "label": {
+      "color": "Pink",
+      "text": "CGX"
+    },
+    "items": [
+      "CGX Palo"
+    ],
+    "destination": "LASV",
+    "photo": "1753205350894-Sync.png"
+  },
+  {
+    "id": "4318b34d-7332-48f3-8605-7b76bc4762ca",
+    "label": {
+      "color": "Red",
+      "text": "adad"
+    },
+    "items": [
+      "Nice"
+    ],
+    "destination": "TUC2",
+    "photo": "1753205382411-Sync.png"
+  }
+]
