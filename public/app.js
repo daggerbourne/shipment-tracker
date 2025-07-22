@@ -30,7 +30,7 @@ async function loadBoxes(query = '') {
       div.appendChild(document.createElement('br'));
       if (box.photo) {
         const img = document.createElement('img');
-        img.src = `Uploads/${box.photo}`;
+        img.src = `uploads/${box.photo}`;
         img.width = 150;
         img.alt = 'Box photo';
         div.appendChild(img);
@@ -110,7 +110,7 @@ window.editBox = async function(id) {
     document.getElementById('labelText').value = box.label.text;
     document.getElementById('items').value = box.items.join(', ');
     document.getElementById('destination').value = box.destination;
-    document.getElementById('photoPreview').innerHTML = box.photo ? `<img src="Uploads/${box.photo}" width="150" alt="Current photo">` : '';
+    document.getElementById('photoPreview').innerHTML = box.photo ? `<img src="uploads/${box.photo}" width="150" alt="Current photo">` : '';
     isEditing = true;
     currentEditId = id;
     form.querySelector('button').textContent = 'Update Box';
