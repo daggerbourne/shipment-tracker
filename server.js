@@ -88,13 +88,17 @@ app.post('/api/upload', upload.single('photo'), async (req, res) => {
     const outputFilename = `${Date.now()}-converted.jpg`;
     const outputPath = path.join(uploadsDir, outputFilename);
 
-    await sharp(req.file.path)
-      .rotate()
-      .jpeg({ quality: 80 })
-      .toFile(outputPath);
+   try {
+  await sharp(req.file.path)
+    .rotate()
+    .jpeg({ quality: 80 })
+    .toFile(outputPath);
 
-    await fs.unlink(req.file.path);
-
+  await fs.unlink(req.file.path);
+} catch (sharpErr) {
+  console.error('❌ Sharp processing failed:', sharpErr.message);
+  return res.status(500).json({ error: 'Image processing failed', detail: sharpErr.message });
+}
     console.log('✅ Upload successful:', outputFilename);
     res.json({ filename: outputFilename });
 
