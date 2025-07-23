@@ -1,38 +1,117 @@
+/* Base and layout */
 body {
   font-family: Arial, sans-serif;
-  margin: 20px;
+  margin: 40px;
+  background-color: #f8f9fa;
+  color: #333;
 }
+
+h1, h2, h3 {
+  text-align: center;
+  color: #333;
+}
+
 form {
-  margin-bottom: 20px;
+  max-width: 500px;
+  margin: 20px auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
-.box {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-#feedback {
-  margin-bottom: 10px;
-  color: red;
-}
-#search {
-  padding: 5px;
-  margin-bottom: 10px;
+
+input, button, select, textarea {
+  display: block;
   width: 100%;
-  max-width: 300px;
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
 }
-input:focus, button:focus {
+
+input:focus, button:focus, textarea:focus {
   outline: 2px solid #007bff;
   outline-offset: 2px;
 }
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#feedback {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
+  color: red;
+}
+
+/* Box display */
+.box {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 10px 0;
+  background-color: #fff;
+  border-radius: 6px;
+}
+
+.box img {
+  display: block;
+  margin-top: 10px;
+  border-radius: 4px;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Search input */
+#search {
+  padding: 8px;
+  margin: 20px auto;
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+}
+
+/* Haiku / info section on landing */
+#info {
+  text-align: center;
+  margin: 30px auto;
+  font-style: italic;
+  color: #555;
+  background: #e7f3ff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+/* Responsive tweaks */
 @media (max-width: 600px) {
   body {
     margin: 10px;
   }
-  .box {
-    padding: 5px;
+
+  form, #info {
+    padding: 15px;
   }
+
+  .box {
+    padding: 10px;
+  }
+
   .box img {
     max-width: 100%;
-    height: auto;
   }
 }
