@@ -4,10 +4,8 @@ body {
   line-height: 1.5;
   background-color: #f8f9fa;
   color: #333;
-}
-
-form label {
-  font-weight: 600;
+  margin: 0;
+  padding: 20px;
 }
 
 h1, h2, h3 {
@@ -15,6 +13,7 @@ h1, h2, h3 {
   color: #333;
 }
 
+/* Form styling */
 form {
   max-width: 500px;
   margin: 20px auto;
@@ -23,6 +22,10 @@ form {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+form label {
+  font-weight: 600;
 }
 
 input, button, select, textarea {
@@ -60,23 +63,6 @@ button:hover {
   color: red;
 }
 
-/* Box display */
-.box {
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin: 10px 0;
-  background-color: #fff;
-  border-radius: 6px;
-}
-
-.box img {
-  display: block;
-  margin-top: 10px;
-  border-radius: 4px;
-  max-width: 100%;
-  height: auto;
-}
-
 /* Search input */
 #search {
   padding: 8px;
@@ -88,7 +74,7 @@ button:hover {
   border-radius: 5px;
 }
 
-/* Haiku / info section on landing */
+/* Info section for haiku */
 #info {
   text-align: center;
   margin: 30px auto;
@@ -101,73 +87,16 @@ button:hover {
   box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* Responsive tweaks */
-@media (max-width: 600px) {
-  body {
-    margin: 10px;
-  }
-
-  form, #info {
-    padding: 15px;
-  }
-
-  .box {
-    padding: 10px;
-  }
-
-  .box img {
-    max-width: 100%;
-  }
-}
-
-/* Box grid layout */
+/* Grid wrapper */
 #boxGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
   margin-top: 20px;
+  padding: 0 10px;
 }
 
-/* Box container with relative positioning for absolute buttons */
-.box {
-  position: relative;
-  border: 1px solid #ccc;
-  padding: 15px;
-  background-color: #fff;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-
-/* Icon buttons in corner */
-.box button {
-  position: absolute;
-  background: none;
-  border: none;
-  font-size: 1.1rem;
-  cursor: pointer;
-  padding: 5px;
-}
-
-.box button:first-of-type {
-  top: 8px;
-  right: 35px;
-}
-
-.box button:last-of-type {
-  top: 8px;
-  right: 5px;
-}
-
-.box button:hover {
-  color: red;
-}
-
-#boxGrid {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
+/* Grid item */
 .parent {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -178,26 +107,43 @@ button:hover {
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   position: relative;
+  transition: transform 0.2s;
 }
 
-/* Box sections */
+/* Image section */
 .div1 {
   grid-row: span 3;
 }
+
+.div1 img {
+  max-width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+
+/* Label area */
 .div2 {
   grid-column: 2 / span 4;
   grid-row: 1;
 }
+
+/* Items */
 .div3 {
   grid-column: 2;
   grid-row: 2;
 }
+
+/* Destination */
 .div4 {
   grid-column: 2;
   grid-row: 3;
 }
 
-/* Hide action buttons by default */
+/* Hide Box ID (not displayed by design) */
+
+/* Edit/Delete button area */
 .box-actions {
   position: absolute;
   top: 8px;
@@ -215,18 +161,38 @@ button:hover {
   cursor: pointer;
 }
 
-/* Show on hover */
-.parent:hover .box-actions {
-  opacity: 1;
-}
-
-/* Simulate long-press on mobile */
+/* Hover/long press to show buttons */
+.parent:hover .box-actions,
 .parent:active .box-actions {
   opacity: 1;
 }
 
+/* Color contrast overrides for bright/dark backgrounds */
+.parent[style*="#ffff00"],
+.parent[style*="#ff77ff"],
+.parent[style*="#ff9900"],
+.parent[style*="#ff0000"],
+.parent[style*="#00ffff"] {
+  color: #000;
+}
+
+.parent[style*="#000000"],
+.parent[style*="#003366"],
+.parent[style*="#222222"] {
+  color: #fff;
+}
+
 /* Responsive tweaks */
 @media (max-width: 600px) {
+  body {
+    margin: 10px;
+    padding: 10px;
+  }
+
+  form, #info {
+    padding: 15px;
+  }
+
   .parent {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto auto;
@@ -237,31 +203,3 @@ button:hover {
     grid-row: auto;
   }
 }
-
-
-/* Better contrast for colorful label backgrounds */
-.parent {
-  color: #000; /* default text color */
-  padding: 15px;
-  border-radius: 6px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  position: relative;
-  transition: transform 0.2s;
-}
-
-/* Dark text on bright backgrounds */
-.parent[style*="#ffff00"],
-.parent[style*="#ff77ff"],
-.parent[style*="#ff9900"],
-.parent[style*="#ff0000"],
-.parent[style*="#00ffff"] {
-  color: #000;
-}
-
-/* White text on dark backgrounds */
-.parent[style*="#000000"],
-.parent[style*="#003366"],
-.parent[style*="#222222"] {
-  color: #fff;
-}
-
