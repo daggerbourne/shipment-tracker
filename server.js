@@ -54,15 +54,23 @@ let boxes = [];
 // Image upload with sharp processing
 app.post('/api/upload', upload.single('photo'), async (req, res) => {
   try {
-    console.log('Upload started...');
+    console.log('\n--- Upload started ---');
     console.log('Incoming upload from IP:', req.ip);
-    console.log('MIME type:', req.file?.mimetype);
-    console.log('Original name:', req.file?.originalname);
-    console.log('File size:', req.file?.size);
+    console.log('Request headers:', req.headers);
 
-    if (!req.file || req.file.size === 0) {
-      console.warn('Upload failed: no file or empty');
+    if (!req.file) {
+      console.warn('❌ No file received');
       return res.status(400).json({ error: 'No file uploaded or file is empty' });
+    }
+
+    console.log('✔ File received');
+    console.log('MIME type:', req.file.mimetype);
+    console.log('Original name:', req.file.originalname);
+    console.log('File size:', req.file.size);
+
+    if (req.file.size === 0) {
+      console.warn('❌ File is empty');
+      return res.status(400).json({ error: 'Uploaded file is empty' });
     }
 
     const outputFilename = `${Date.now()}-converted.jpg`;
@@ -75,14 +83,15 @@ app.post('/api/upload', upload.single('photo'), async (req, res) => {
 
     await fs.unlink(req.file.path);
 
-    console.log('Upload successful:', outputFilename);
+    console.log('✅ Upload successful:', outputFilename);
     res.json({ filename: outputFilename });
 
   } catch (err) {
-    console.error('Upload error:', err);
-    res.status(500).json({ error: 'Image processing failed' });
+    console.error('🔥 Upload error:', err.message);
+    res.status(500).json({ error: 'Image processing failed', detail: err.message });
   }
 });
+
 
 
 
