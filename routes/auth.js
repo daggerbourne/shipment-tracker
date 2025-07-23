@@ -45,13 +45,9 @@ router.post('/login', async (req, res) => {
     return res.status(403).json({ error: 'Account pending admin approval.' });
   }
 
-  const token = jwt.sign(
-    { id: user._id, role: user.role },
-    'supersecretkey', // TODO: use process.env.JWT_SECRET
-    { expiresIn: '1d' }
-  );
+  const token = jwt.sign({ id: user._id }, 'supersecretkey');
+res.json({ token, approved: user.approved, role: user.role });
 
-  res.json({ token });
 });
 
 module.exports = router;
