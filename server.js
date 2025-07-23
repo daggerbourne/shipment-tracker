@@ -38,12 +38,15 @@ const storage = multer.diskStorage({
 });
 const upload = multer({
   storage,
-  fileFilter: (req, file, cb) => {
-    if (!file.mimetype.startsWith('image/')) {
-      return cb(new Error('Only image files are allowed'), false);
-    }
-    cb(null, true);
-  },
+fileFilter: (req, file, cb) => {
+  console.log('📥 fileFilter MIME:', file.mimetype);
+  console.log('📥 fileFilter fieldname:', file.fieldname);
+  if (!file.mimetype.startsWith('image/')) {
+    console.warn(`❌ Rejected file with MIME: ${file.mimetype}`);
+    return cb(new Error('Only image files are allowed'), false);
+  }
+  cb(null, true);
+},
   limits: { fileSize: 50 * 1024 * 1024 } // Increased to 50MB
 });
 
@@ -75,6 +78,9 @@ app.post('/api/upload', upload.single('photo'), async (req, res) => {
       return res.status(400).json({ error: 'No file uploaded or file is empty' });
     }
 
+    console.log('🔍 Received upload request');
+    console.log('🔍 req.file:', req.file);
+    console.log('🔍 req.body:', req.body);
     console.log('✔ File received');
     console.log('MIME type:', req.file.mimetype);
     console.log('Original name:', req.file.originalname);
