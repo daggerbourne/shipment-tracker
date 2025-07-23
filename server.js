@@ -7,9 +7,19 @@ const { v4: uuidv4 } = require('uuid');
 const sharp = require('sharp');
 
 const app = express();
+const authRoutes = require('./routes/auth');
 const PORT = process.env.PORT || 3000;
 const DATA_FILE = path.join(__dirname, 'data.json');
 const uploadsDir = path.join(__dirname, 'public', 'uploads');
+const mongoose = require('mongoose');
+
+
+//mongoose connector
+mongoose.connect('mongodb+srv://shipment-trackerDB:HPKwU4jXL3b4RneJ@shipment-tracker.dvffhqe.mongodb.net/?retryWrites=true&w=majority&appName=shipment-tracker', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => console.log('🗄️ MongoDB connected'))
+  .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // Ensure upload folder exists
 (async () => {
@@ -39,6 +49,7 @@ const upload = multer({
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
+app.use('/api', authRoutes);
 
 let boxes = [];
 (async () => {
