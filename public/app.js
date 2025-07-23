@@ -38,10 +38,10 @@ async function loadBoxes(query = '') {
 
       const inner = document.createElement('div');
       inner.className = 'flip-inner';
-      inner.style.backgroundColor = box.label.color;
 
       const front = document.createElement('div');
       front.className = 'flip-front parent';
+      front.style.backgroundColor = box.label.color;
 
       const div2 = document.createElement('div');
       div2.className = 'div2';
@@ -95,10 +95,10 @@ async function loadBoxes(query = '') {
       boxList.appendChild(container);
 
       let lastTap = 0;
-      container.addEventListener(isTouchDevice() ? 'touchend' : 'click', e => {
+      inner.addEventListener(isTouchDevice() ? 'touchend' : 'click', e => {
         const now = new Date().getTime();
         if (!isTouchDevice() || (now - lastTap < 500)) {
-          container.classList.toggle('flipped');
+          inner.classList.toggle('flipped');
         }
         lastTap = now;
       });
