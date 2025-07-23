@@ -60,7 +60,10 @@ form.addEventListener('submit', async (e) => {
     if (fileInput.files.length > 0) {
       const formData = new FormData();
       formData.append('photo', fileInput.files[0]);
-      const uploadRes = await fetch('/api/upload', { method: 'POST', body: formData });
+      const uploadRes = await fetch('http://157.230.4.1:3000/api/upload', {
+        method: 'POST',
+        body: formData
+      });
       if (!uploadRes.ok) throw new Error('File upload failed');
       const uploadData = await uploadRes.json();
       photoFilename = uploadData.filename;
