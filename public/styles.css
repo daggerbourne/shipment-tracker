@@ -139,9 +139,11 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1; 
 }
 
 .flip-back img {
+  border: 2px solid red;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -200,6 +202,15 @@ button:hover {
 .flip-front[style*="#222222"] {
   color: #fff;
 }
+
+.flip-back img {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  object-fit: contain;
+  margin: auto;
+}
+
 
 /* Responsive tweaks */
 @media (max-width: 600px) {
