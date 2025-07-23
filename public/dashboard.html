@@ -11,7 +11,19 @@
   <div id="feedback" style="color: red;"></div>
 
   <form id="boxForm">
-    <label for="labelColor">Label Color: <input type="text" id="labelColor" required></label>
+    <label for="labelColor">Label Color:
+  <select id="labelColor" required>
+    <option value="#ff69b4">Pink</option> 
+    <option value="#ffa500">Orange</option>
+    <option value="#007bff">Blue</option>
+    <option value="#dc3545">Red</option>
+    <option value="#28a745">Green</option>
+    <option value="#ffc107">Yellow</option>
+    <option value="#6f42c1">Purple</option>
+    <option value="#17a2b8">Teal</option>
+  </select>
+</label>
+
     <label for="labelText">Label Text: <input type="text" id="labelText" required></label>
     <label for="items">Items in Box (comma separated): <input type="text" id="items" required></label>
     <label for="destination">Destination: <input type="text" id="destination" required></label>

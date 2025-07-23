@@ -1,9 +1,13 @@
 /* Base and layout */
 body {
-  font-family: Arial, sans-serif;
-  margin: 40px;
+  font-family: "Segoe UI", Arial, sans-serif;
+  line-height: 1.5;
   background-color: #f8f9fa;
   color: #333;
+}
+
+form label {
+  font-weight: 600;
 }
 
 h1, h2, h3 {
@@ -234,4 +238,30 @@ button:hover {
   }
 }
 
+
+/* Better contrast for colorful label backgrounds */
+.parent {
+  color: #000; /* default text color */
+  padding: 15px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transition: transform 0.2s;
+}
+
+/* Dark text on bright backgrounds */
+.parent[style*="#ffff00"],
+.parent[style*="#ff77ff"],
+.parent[style*="#ff9900"],
+.parent[style*="#ff0000"],
+.parent[style*="#00ffff"] {
+  color: #000;
+}
+
+/* White text on dark backgrounds */
+.parent[style*="#000000"],
+.parent[style*="#003366"],
+.parent[style*="#222222"] {
+  color: #fff;
+}
 
