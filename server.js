@@ -15,10 +15,10 @@ const mongoose = require('mongoose');
 
 
 //mongoose connector
-mongoose.connect('mongodb+srv://shipment-trackerDB:HPKwU4jXL3b4RneJ@shipment-tracker.dvffhqe.mongodb.net/?retryWrites=true&w=majority&appName=shipment-tracker', {
+mongoose.connect('mongodb+srv://shipment-trackerDB:Zn00ZWFfwUGYpF4q@shipment-tracker.dvffhqe.mongodb.net/shipmentApp?retryWrites=true&w=majority&appName=shipment-tracker', {
   useNewUrlParser: true,
   useUnifiedTopology: true
-}).then(() => console.log('🗄️ MongoDB connected'))
+}).then(() => console.log('✅ MongoDB connected'))
   .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // Ensure upload folder exists
