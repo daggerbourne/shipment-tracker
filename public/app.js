@@ -1,5 +1,5 @@
 const form = document.getElementById('boxForm');
-const boxList = document.getElementById('boxList');
+const boxList = document.getElementById('boxGrid');
 const searchInput = document.getElementById('search');
 const feedback = document.getElementById('feedback');
 let isEditing = false;
@@ -53,12 +53,12 @@ async function loadBoxes(query = '') {
       }
 
       const editBtn = document.createElement('button');
-      editBtn.textContent = 'Edit';
+      editBtn.innerHTML = '🖉'; // Pencil icon
       editBtn.onclick = () => editBox(box.id);
       div.appendChild(editBtn);
 
       const deleteBtn = document.createElement('button');
-      deleteBtn.textContent = 'Delete';
+      deleteBtn.innerHTML = '❌'; // X icon
       deleteBtn.onclick = () => deleteBox(box.id);
       div.appendChild(deleteBtn);
 

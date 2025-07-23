@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shipment Tracker</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <h2>Intraoffice Shipment Tracker</h2>
+  <h2>Intraoffice Shipment Dashboard</h2>
   <div id="feedback" style="color: red;"></div>
+
   <form id="boxForm">
     <label for="labelColor">Label Color: <input type="text" id="labelColor" required></label>
-    <label for="labelText">Label Text: <input type="text" id="labelText" required></label><br><br>
-    <label for="items">Items in Box (comma separated):<br>
-      <input type="text" id="items" required>
-    </label><br><br>
-    <label for="destination">Destination: <input type="text" id="destination" required></label><br><br>
+    <label for="labelText">Label Text: <input type="text" id="labelText" required></label>
+    <label for="items">Items in Box (comma separated): <input type="text" id="items" required></label>
+    <label for="destination">Destination: <input type="text" id="destination" required></label>
     <div id="photoPreview"></div>
     <label for="photo">Upload Photo:
       <input type="file" id="photo" accept="image/*" capture="environment">
-    </label><br><br>
+    </label>
     <button type="submit" id="submitBtn">Add Box</button>
   </form>
+
   <h3>Tracked Boxes</h3>
   <input type="text" id="search" placeholder="Search by label or destination">
-  <div id="boxList"></div>
+  
+  <div id="boxGrid"></div>
+
   <script src="app.js"></script>
 </body>
 </html>
