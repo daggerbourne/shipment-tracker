@@ -96,26 +96,79 @@ button:hover {
   padding: 0 10px;
 }
 
-/* Grid item */
-.parent {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: auto; /* changed from repeat(5, 1fr) */
-  gap: 8px;
-  padding: 15px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  position: relative;
-  transition: transform 0.2s;
+/* Flip wrapper (card) */
+.flip-container {
+  perspective: 1000px;
 }
 
+.flippable {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
 
-/* Image section */
+.flippable.flipped {
+  transform: rotateY(180deg);
+}
+
+/* Front/back faces */
+.flip-front, .flip-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  padding: 15px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto;
+  gap: 8px;
+}
+
+.flip-front {
+  z-index: 2;
+}
+
+.flip-back {
+  transform: rotateY(180deg);
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flip-back img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Section layout inside front */
 .div1 {
   grid-row: span 3;
 }
 
+.div2 {
+  grid-column: 2 / span 4;
+  grid-row: 1;
+}
+
+.div3 {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.div4 {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+/* Image inside front (optional) */
 .div1 img {
   max-width: 100%;
   height: 160px;
@@ -124,27 +177,7 @@ button:hover {
   display: block;
 }
 
-/* Label area */
-.div2 {
-  grid-column: 2 / span 4;
-  grid-row: 1;
-}
-
-/* Items */
-.div3 {
-  grid-column: 2;
-  grid-row: 2;
-}
-
-/* Destination */
-.div4 {
-  grid-column: 2;
-  grid-row: 3;
-}
-
-/* Hide Box ID (not displayed by design) */
-
-/* Edit/Delete button area */
+/* Action buttons (edit/delete) */
 .box-actions {
   position: absolute;
   top: 8px;
@@ -160,26 +193,26 @@ button:hover {
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
+  color: inherit;
 }
 
-/* Hover/long press to show buttons */
-.parent:hover .box-actions,
-.parent:active .box-actions {
+.flippable:hover .box-actions,
+.flippable:active .box-actions {
   opacity: 1;
 }
 
-/* Color contrast overrides for bright/dark backgrounds */
-.parent[style*="#ffff00"],
-.parent[style*="#ff77ff"],
-.parent[style*="#ff9900"],
-.parent[style*="#ff0000"],
-.parent[style*="#00ffff"] {
+/* Color contrast overrides */
+.flippable[style*="#ffff00"],
+.flippable[style*="#ff77ff"],
+.flippable[style*="#ff9900"],
+.flippable[style*="#ff0000"],
+.flippable[style*="#00ffff"] {
   color: #000;
 }
 
-.parent[style*="#000000"],
-.parent[style*="#003366"],
-.parent[style*="#222222"] {
+.flippable[style*="#000000"],
+.flippable[style*="#003366"],
+.flippable[style*="#222222"] {
   color: #fff;
 }
 
@@ -194,7 +227,7 @@ button:hover {
     padding: 15px;
   }
 
-  .parent {
+  .flip-front {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto auto;
   }
@@ -203,48 +236,4 @@ button:hover {
     grid-column: auto;
     grid-row: auto;
   }
-}
-
-.box-flip {
-  perspective: 1000px;
-}
-
-.flip-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-}
-
-.box-flip.flipped .flip-inner {
-  transform: rotateY(180deg);
-}
-
-.flip-front, .flip-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.flip-front {
-  z-index: 2;
-  background: inherit;
-}
-
-.flip-back {
-  transform: rotateY(180deg);
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.flip-back img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
