@@ -54,27 +54,32 @@ let boxes = [];
 // Image upload with sharp processing
 app.post('/api/upload', upload.single('photo'), async (req, res) => {
   try {
+    console.log('Upload started...');
     if (!req.file || req.file.size === 0) {
+      console.warn('Upload failed: no file or empty');
       return res.status(400).json({ error: 'No file uploaded or file is empty' });
     }
 
-    const originalPath = req.file.path;
+    console.log('Received file:', req.file.originalname);
+
     const outputFilename = `${Date.now()}-converted.jpg`;
     const outputPath = path.join(uploadsDir, outputFilename);
 
-    await sharp(originalPath)
-      .rotate() // Fix EXIF orientation
-      .jpeg({ quality: 80 }) // Compress + convert to jpg
+    await sharp(req.file.path)
+      .rotate() // auto-correct orientation
+      .jpeg({ quality: 80 }) // compress to jpg
       .toFile(outputPath);
 
-    await fs.unlink(originalPath); // Delete original upload
+    await fs.unlink(req.file.path); // delete original
 
+    console.log('Upload successful:', outputFilename);
     res.json({ filename: outputFilename });
   } catch (err) {
     console.error('Upload error:', err);
     res.status(500).json({ error: 'Image processing failed' });
   }
 });
+
 
 // GET boxes
 app.get('/api/boxes', (req, res) => res.json(boxes));
@@ -136,3 +141,11 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => console.log(`🚚 Server running on http://localhost:${PORT}`));
+
+
+//logging
+console.log('Incoming upload from IP:', req.ip);
+console.log('MIME type:', req.file?.mimetype);
+console.log('Original name:', req.file?.originalname);
+console.log('File size:', req.file?.size);
+
