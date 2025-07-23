@@ -100,7 +100,7 @@ button:hover {
 .parent {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(5, 1fr);
+  grid-template-rows: auto; /* changed from repeat(5, 1fr) */
   gap: 8px;
   padding: 15px;
   background: #fff;
@@ -109,6 +109,7 @@ button:hover {
   position: relative;
   transition: transform 0.2s;
 }
+
 
 /* Image section */
 .div1 {
