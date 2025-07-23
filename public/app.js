@@ -122,6 +122,9 @@ form.addEventListener('submit', async e => {
       formData.append('photo', fileInput.files[0]);
       const uploadRes = await fetch('/api/upload', {
         method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}` // <-- Add this
+        },
         body: formData
       });
       if (!uploadRes.ok) throw new Error('File upload failed');
