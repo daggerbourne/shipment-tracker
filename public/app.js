@@ -116,20 +116,33 @@ form.addEventListener('submit', async e => {
     if (!token) throw new Error('Not authenticated. Please log in.');
 
     const fileInput = document.getElementById('photo');
-    let photoFilename = '';
-    if (fileInput.files.length > 0) {
-      const formData = new FormData();
-      formData.append('photo', fileInput.files[0]);
-      const uploadRes = await fetch('/api/upload', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}` // <-- Add this
-        },
-        body: formData
-      });
-      if (!uploadRes.ok) throw new Error('File upload failed');
-      photoFilename = (await uploadRes.json()).filename;
-    }
+let photoFilename = '';
+
+if (fileInput.files.length > 0) {
+  console.log('📸 Uploading file:', fileInput.files[0]);
+  const formData = new FormData();
+  formData.append('photo', fileInput.files[0]);
+
+  const uploadRes = await fetch('/api/upload', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    body: formData
+  });
+
+  console.log('📥 Upload response status:', uploadRes.status);
+
+  if (!uploadRes.ok) {
+    const errText = await uploadRes.text(); // so we can see what the backend says
+    console.error('❌ Upload failed response:', errText);
+    throw new Error(`File upload failed: ${uploadRes.status} ${errText}`);
+  }
+
+  const data = await uploadRes.json();
+  console.log('✅ Upload successful:', data);
+  photoFilename = data.filename;
+}
 
     const box = {
       label: {
