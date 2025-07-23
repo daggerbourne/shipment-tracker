@@ -31,39 +31,59 @@ async function loadBoxes(query = '') {
       : boxes;
 
     boxList.innerHTML = '';
-    filteredBoxes.forEach((box) => {
-      const div = document.createElement('div');
-      div.className = 'box';
-      div.appendChild(document.createTextNode(`Box ID: ${box.id}`));
-      div.appendChild(document.createElement('br'));
-      div.appendChild(document.createTextNode(`Label: ${box.label.color} - "${box.label.text}"`));
-      div.appendChild(document.createElement('br'));
-      div.appendChild(document.createTextNode(`Items: ${box.items.join(', ')}`));
-      div.appendChild(document.createElement('br'));
-      div.appendChild(document.createTextNode(`Destination: ${box.destination}`));
-      div.appendChild(document.createElement('br'));
-
+    filteredBoxes.forEach(box => {
+      const parent = document.createElement('div');
+      parent.className = 'parent';
+    
+      // Div1: Image
+      const div1 = document.createElement('div');
+      div1.className = 'div1';
       if (box.photo) {
         const img = document.createElement('img');
         img.src = `uploads/${box.photo}`;
-        img.width = 150;
         img.alt = 'Box photo';
-        div.appendChild(img);
-        div.appendChild(document.createElement('br'));
+        img.style.width = '100%';
+        img.style.borderRadius = '6px';
+        div1.appendChild(img);
       }
-
+      parent.appendChild(div1);
+    
+      // Div2: Box ID + label
+      const div2 = document.createElement('div');
+      div2.className = 'div2';
+      div2.innerHTML = `
+        <strong>Box ID:</strong> ${box.id}<br>
+        <strong>Label:</strong> ${box.label.color} - "${box.label.text}"`;
+      parent.appendChild(div2);
+    
+      // Div3: Items
+      const div3 = document.createElement('div');
+      div3.className = 'div3';
+      div3.innerHTML = `<strong>Items:</strong><br>${box.items.join(', ')}`;
+      parent.appendChild(div3);
+    
+      // Div4: Destination
+      const div4 = document.createElement('div');
+      div4.className = 'div4';
+      div4.innerHTML = `<strong>Destination:</strong><br>${box.destination}`;
+      parent.appendChild(div4);
+    
+      // Action buttons container
+      const actions = document.createElement('div');
+      actions.className = 'box-actions';
       const editBtn = document.createElement('button');
-      editBtn.innerHTML = '🖉'; // Pencil icon
+      editBtn.innerHTML = '🖉';
       editBtn.onclick = () => editBox(box.id);
-      div.appendChild(editBtn);
-
       const deleteBtn = document.createElement('button');
-      deleteBtn.innerHTML = '❌'; // X icon
+      deleteBtn.innerHTML = '❌';
       deleteBtn.onclick = () => deleteBox(box.id);
-      div.appendChild(deleteBtn);
-
-      boxList.appendChild(div);
+      actions.appendChild(editBtn);
+      actions.appendChild(deleteBtn);
+      parent.appendChild(actions);
+    
+      boxList.appendChild(parent);
     });
+    
   } catch (err) {
     feedback.textContent = `Error: ${err.message}`;
   }
