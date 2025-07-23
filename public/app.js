@@ -9,6 +9,10 @@ function getToken() {
   return localStorage.getItem('token');
 }
 
+function isTouchDevice() {
+  return 'ontouchstart' in window || navigator.maxTouchPoints;
+}
+
 async function loadBoxes(query = '') {
   try {
     const token = getToken();
@@ -20,70 +24,91 @@ async function loadBoxes(query = '') {
     if (!res.ok) throw new Error('Failed to fetch boxes');
     const boxes = await res.json();
 
-    // filter
     const filteredBoxes = query
-      ? boxes.filter(
-          box =>
-            box.label.text.toLowerCase().includes(query.toLowerCase()) ||
-            box.destination.toLowerCase().includes(query.toLowerCase())
+      ? boxes.filter(box =>
+          box.label.text.toLowerCase().includes(query.toLowerCase()) ||
+          box.destination.toLowerCase().includes(query.toLowerCase())
         )
       : boxes;
 
     boxList.innerHTML = '';
     filteredBoxes.forEach(box => {
-      // parent grid container
-      const parent = document.createElement('div');
-      parent.className = 'parent';
-      // set background color from picker
-      parent.style.backgroundColor = box.label.color;
+      const flipper = document.createElement('div');
+      flipper.className = 'flip-container';
 
-      // Div1: photo
-      const div1 = document.createElement('div');
-      div1.className = 'div1';
-      if (box.photo) {
-        const img = document.createElement('img');
-        img.src = `uploads/${box.photo}`;
-        img.alt = 'Box photo';
-        img.style.width = '100%';
-        img.style.borderRadius = '6px';
-        div1.appendChild(img);
-      }
-      parent.appendChild(div1);
+      const flippable = document.createElement('div');
+      flippable.className = 'flippable';
+      flippable.style.backgroundColor = box.label.color;
 
-      // Div2: label text only
+      // FRONT
+      const front = document.createElement('div');
+      front.className = 'flip-front parent';
+
       const div2 = document.createElement('div');
       div2.className = 'div2';
       div2.innerHTML = `<strong>Label:</strong> "${box.label.text}"`;
-      parent.appendChild(div2);
+      front.appendChild(div2);
 
-      // Div3: items
       const div3 = document.createElement('div');
       div3.className = 'div3';
       div3.innerHTML = `<strong>Items:</strong><br>${box.items.join(', ')}`;
-      parent.appendChild(div3);
+      front.appendChild(div3);
 
-      // Div4: destination
       const div4 = document.createElement('div');
       div4.className = 'div4';
       div4.innerHTML = `<strong>Destination:</strong><br>${box.destination}`;
-      parent.appendChild(div4);
+      front.appendChild(div4);
 
-      // actions (edit/delete) hidden until hover/press
       const actions = document.createElement('div');
       actions.className = 'box-actions';
       const editBtn = document.createElement('button');
       editBtn.type = 'button';
       editBtn.innerHTML = '🖉';
-      editBtn.onclick = () => editBox(box.id);
+      editBtn.onclick = e => {
+        e.stopPropagation();
+        editBox(box.id);
+      };
       const deleteBtn = document.createElement('button');
       deleteBtn.type = 'button';
       deleteBtn.innerHTML = '❌';
-      deleteBtn.onclick = () => deleteBox(box.id);
+      deleteBtn.onclick = e => {
+        e.stopPropagation();
+        deleteBox(box.id);
+      };
       actions.appendChild(editBtn);
       actions.appendChild(deleteBtn);
-      parent.appendChild(actions);
+      front.appendChild(actions);
 
-      boxList.appendChild(parent);
+      // BACK
+      const back = document.createElement('div');
+      back.className = 'flip-back';
+      if (box.photo) {
+        const img = document.createElement('img');
+        img.src = `uploads/${box.photo}`;
+        img.alt = 'Box photo';
+        img.className = 'flip-img';
+        back.appendChild(img);
+      } else {
+        back.textContent = 'No photo available';
+        back.style.display = 'flex';
+        back.style.alignItems = 'center';
+        back.style.justifyContent = 'center';
+        back.style.color = '#777';
+      }
+
+      flippable.appendChild(front);
+      flippable.appendChild(back);
+      flipper.appendChild(flippable);
+      boxList.appendChild(flipper);
+
+      let lastTap = 0;
+      flippable.addEventListener(isTouchDevice() ? 'touchend' : 'click', e => {
+        const now = new Date().getTime();
+        if (!isTouchDevice() || (now - lastTap < 500)) {
+          flippable.classList.toggle('flipped');
+        }
+        lastTap = now;
+      });
     });
   } catch (err) {
     feedback.textContent = `Error: ${err.message}`;
@@ -97,7 +122,6 @@ form.addEventListener('submit', async e => {
     const token = getToken();
     if (!token) throw new Error('Not authenticated. Please log in.');
 
-    // upload photo if present
     const fileInput = document.getElementById('photo');
     let photoFilename = '';
     if (fileInput.files.length > 0) {
@@ -111,17 +135,12 @@ form.addEventListener('submit', async e => {
       photoFilename = (await uploadRes.json()).filename;
     }
 
-    // build box payload
     const box = {
       label: {
         color: document.getElementById('labelColor').value,
         text: document.getElementById('labelText').value
       },
-      items: document
-        .getElementById('items')
-        .value.split(',')
-        .map(i => i.trim())
-        .filter(i => i),
+      items: document.getElementById('items').value.split(',').map(i => i.trim()).filter(i => i),
       destination: document.getElementById('destination').value,
       photo: photoFilename
     };
@@ -143,7 +162,6 @@ form.addEventListener('submit', async e => {
     });
     if (!res.ok) throw new Error('Failed to save box');
 
-    // reset form if updating
     if (isEditing) {
       isEditing = false;
       currentEditId = null;
@@ -198,7 +216,6 @@ window.deleteBox = async id => {
       headers: { Authorization: `Bearer ${token}` }
     });
     if (!res.ok) throw new Error('Failed to delete box');
-
     loadBoxes();
     feedback.textContent = 'Box deleted successfully!';
   } catch (err) {
@@ -208,10 +225,8 @@ window.deleteBox = async id => {
 
 searchInput.addEventListener('input', () => loadBoxes(searchInput.value));
 
-// redirect if not authenticated
 if (!getToken()) {
   window.location.href = '/login.html';
 }
 
-// initial load
 loadBoxes();
