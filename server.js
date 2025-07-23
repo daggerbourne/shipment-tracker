@@ -1,3 +1,4 @@
+const { authenticate, requireRole } = require('./middleware/authMiddleware');
 const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
@@ -110,7 +111,7 @@ app.post('/api/upload', upload.single('photo'), async (req, res) => {
 app.get('/api/boxes', (req, res) => res.json(boxes));
 
 // POST box
-app.post('/api/boxes', async (req, res) => {
+app.post('/api/boxes', authenticate, requireRole('contributor'), async (req, res) => {
   try {
     const box = { id: uuidv4(), ...req.body };
     boxes.push(box);
@@ -139,7 +140,7 @@ app.put('/api/boxes/:id', async (req, res) => {
 });
 
 // DELETE box
-app.delete('/api/boxes/:id', async (req, res) => {
+app.delete('/api/boxes/:id', authenticate, requireRole('contributor'), async (req, res) => {
   try {
     const id = req.params.id;
     const index = boxes.findIndex(box => box.id === id);
