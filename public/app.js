@@ -33,14 +33,13 @@ async function loadBoxes(query = '') {
 
     boxList.innerHTML = '';
     filteredBoxes.forEach(box => {
-      const flipper = document.createElement('div');
-      flipper.className = 'flip-container';
+      const container = document.createElement('div');
+      container.className = 'flip-container';
 
-      const flippable = document.createElement('div');
-      flippable.className = 'flippable';
-      flippable.style.backgroundColor = box.label.color;
+      const inner = document.createElement('div');
+      inner.className = 'flip-inner';
+      inner.style.backgroundColor = box.label.color;
 
-      // FRONT
       const front = document.createElement('div');
       front.className = 'flip-front parent';
 
@@ -79,33 +78,27 @@ async function loadBoxes(query = '') {
       actions.appendChild(deleteBtn);
       front.appendChild(actions);
 
-      // BACK
       const back = document.createElement('div');
       back.className = 'flip-back';
       if (box.photo) {
         const img = document.createElement('img');
         img.src = `uploads/${box.photo}`;
         img.alt = 'Box photo';
-        img.className = 'flip-img';
         back.appendChild(img);
       } else {
         back.textContent = 'No photo available';
-        back.style.display = 'flex';
-        back.style.alignItems = 'center';
-        back.style.justifyContent = 'center';
-        back.style.color = '#777';
       }
 
-      flippable.appendChild(front);
-      flippable.appendChild(back);
-      flipper.appendChild(flippable);
-      boxList.appendChild(flipper);
+      inner.appendChild(front);
+      inner.appendChild(back);
+      container.appendChild(inner);
+      boxList.appendChild(container);
 
       let lastTap = 0;
-      flippable.addEventListener(isTouchDevice() ? 'touchend' : 'click', e => {
+      container.addEventListener(isTouchDevice() ? 'touchend' : 'click', e => {
         const now = new Date().getTime();
         if (!isTouchDevice() || (now - lastTap < 500)) {
-          flippable.classList.toggle('flipped');
+          container.classList.toggle('flipped');
         }
         lastTap = now;
       });

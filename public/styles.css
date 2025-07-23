@@ -74,7 +74,7 @@ button:hover {
   border-radius: 5px;
 }
 
-/* Info section for haiku */
+/* Info section */
 #info {
   text-align: center;
   margin: 30px auto;
@@ -96,12 +96,12 @@ button:hover {
   padding: 0 10px;
 }
 
-/* Flip wrapper (card) */
+/* Flip structure */
 .flip-container {
   perspective: 1000px;
 }
 
-.flippable {
+.flip-inner {
   position: relative;
   width: 100%;
   height: 280px;
@@ -112,26 +112,25 @@ button:hover {
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.flippable.flipped {
+.flip-inner.flipped {
   transform: rotateY(180deg);
 }
 
-/* Front/back faces */
-.flip-front, .flip-back {
+.flip-front,
+.flip-back {
   position: absolute;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
   padding: 15px;
   box-sizing: border-box;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: auto;
-  gap: 8px;
 }
 
 .flip-front {
   z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
 }
 
 .flip-back {
@@ -146,38 +145,24 @@ button:hover {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 10px;
 }
 
-/* Section layout inside front */
-.div1 {
-  grid-row: span 3;
-}
-
+/* Front content grid layout */
 .div2 {
   grid-column: 2 / span 4;
   grid-row: 1;
 }
-
 .div3 {
   grid-column: 2;
   grid-row: 2;
 }
-
 .div4 {
   grid-column: 2;
   grid-row: 3;
 }
 
-/* Image inside front (optional) */
-.div1 img {
-  max-width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 6px;
-  display: block;
-}
-
-/* Action buttons (edit/delete) */
+/* Edit/Delete Buttons */
 .box-actions {
   position: absolute;
   top: 8px;
@@ -196,44 +181,44 @@ button:hover {
   color: inherit;
 }
 
-.flippable:hover .box-actions,
-.flippable:active .box-actions {
+.flip-inner:hover .box-actions,
+.flip-inner:active .box-actions {
   opacity: 1;
 }
 
 /* Color contrast overrides */
-.flippable[style*="#ffff00"],
-.flippable[style*="#ff77ff"],
-.flippable[style*="#ff9900"],
-.flippable[style*="#ff0000"],
-.flippable[style*="#00ffff"] {
+.flip-front[style*="#ffff00"],
+.flip-front[style*="#ff77ff"],
+.flip-front[style*="#ff9900"],
+.flip-front[style*="#ff0000"],
+.flip-front[style*="#00ffff"] {
   color: #000;
 }
 
-.flippable[style*="#000000"],
-.flippable[style*="#003366"],
-.flippable[style*="#222222"] {
+.flip-front[style*="#000000"],
+.flip-front[style*="#003366"],
+.flip-front[style*="#222222"] {
   color: #fff;
 }
 
 /* Responsive tweaks */
 @media (max-width: 600px) {
-  body {
-    margin: 10px;
-    padding: 10px;
+  .flip-front {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  .div2, .div3, .div4 {
+    grid-column: auto;
+    grid-row: auto;
   }
 
   form, #info {
     padding: 15px;
   }
 
-  .flip-front {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto auto;
-  }
-
-  .div1, .div2, .div3, .div4 {
-    grid-column: auto;
-    grid-row: auto;
+  body {
+    margin: 10px;
+    padding: 10px;
   }
 }
