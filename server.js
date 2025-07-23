@@ -107,10 +107,10 @@ app.post('/api/upload', upload.single('photo'), async (req, res) => {
 
 
 
-// GET boxes
-app.get('/api/boxes', (req, res) => res.json(boxes));
+// 👀 All logged-in users (Viewer or Contributor) can see boxes
+app.get('/api/boxes', authenticate, (req, res) => res.json(boxes));
 
-// POST box
+// ✍️ Only Contributors can add/edit/delete
 app.post('/api/boxes', authenticate, requireRole('contributor'), async (req, res) => {
   try {
     const box = { id: uuidv4(), ...req.body };
@@ -123,7 +123,7 @@ app.post('/api/boxes', authenticate, requireRole('contributor'), async (req, res
 });
 
 // PUT box
-app.put('/api/boxes/:id', async (req, res) => {
+app.put('/api/boxes/:id', authenticate, requireRole('contributor'), async (req, res) => {
   try {
     const id = req.params.id;
     const index = boxes.findIndex(box => box.id === id);
