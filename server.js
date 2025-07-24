@@ -129,6 +129,7 @@ app.post('/api/boxes', authenticate, requireRole('contributor'), async (req, res
       label: req.body.label,
       items: req.body.items,
       destination: req.body.destination,
+      carrier: req.body.carrier || '',
       photo: req.body.photo || ''  // ✅ Ensure photo is explicitly set
     };
     boxes.push(box);
@@ -152,6 +153,7 @@ app.put('/api/boxes/:id', authenticate, requireRole('contributor'), async (req, 
         label: req.body.label || existing.label,
         items: req.body.items || existing.items,
         destination: req.body.destination || existing.destination,
+        carrier: req.body.carrier || '',
         photo: req.body.photo !== undefined ? req.body.photo : existing.photo  // ✅ Preserve or update
       };
       await fs.writeFile(DATA_FILE, JSON.stringify(boxes, null, 2));

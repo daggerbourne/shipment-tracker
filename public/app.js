@@ -58,6 +58,11 @@ async function loadBoxes(query = '') {
       div4.innerHTML = `<strong>Destination:</strong><br>${box.destination}`;
       front.appendChild(div4);
 
+      const div5 = document.createElement('div');
+      div5.className = 'div5';
+      div5.innerHTML = `<strong>Carrier:</strong><br>${box.carrier || 'N/A'}`;
+      front.appendChild(div5);
+
       const actions = document.createElement('div');
       actions.className = 'box-actions';
       const editBtn = document.createElement('button');
@@ -149,13 +154,14 @@ if (fileInput.files.length > 0) {
   photoFilename = data.filename;
 }
 
-   const box = {
+const box = {
   label: {
     color: document.getElementById('labelColor').value,
     text: document.getElementById('labelText').value
   },
   items: document.getElementById('items').value.split(',').map(i => i.trim()).filter(i => i),
-  destination: document.getElementById('destination').value
+  destination: document.getElementById('destination').value,
+  carrier: document.getElementById('carrier').value
 };
 
     if (photoFilename) {
@@ -211,6 +217,7 @@ window.editBox = async id => {
     document.getElementById('labelText').value = box.label.text;
     document.getElementById('items').value = box.items.join(', ');
     document.getElementById('destination').value = box.destination;
+    document.getElementById('carrier').value = box.carrier || '';
     document.getElementById('photoPreview').innerHTML = box.photo
       ? `<img src="uploads/${box.photo}" width="150" alt="Current photo">`
       : '';

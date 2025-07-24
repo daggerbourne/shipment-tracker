@@ -27,6 +27,17 @@
     <label for="labelText">Label Text: <input type="text" id="labelText" required></label>
     <label for="items">Items in Box (comma separated): <input type="text" id="items" required></label>
     <label for="destination">Destination: <input type="text" id="destination" required></label>
+    <label for="carrier">Carrier:
+      <select id="carrier" required>
+        <option value="">Select carrier</option>
+        <option value="UPS">UPS</option>
+        <option value="FedEX">FedEX</option>
+        <option value="USPS">USPS</option>
+        <option value="Sterling">Sterling</option>
+        <option value="Hand Delivery">Hand Delivery</option>
+      </select>
+    </label>
+
     <div id="photoPreview"></div>
     <label for="photo">Upload Photo:
       <input type="file" id="photo" accept="image/*" capture="environment">
