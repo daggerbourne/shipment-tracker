@@ -125,6 +125,7 @@ button:hover {
   box-sizing: border-box;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden; /* <-- important for mobile (Pixel/Chrome) */
+  outline: 2px dashed lime;
 }
 
 
