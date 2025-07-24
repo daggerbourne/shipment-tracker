@@ -79,15 +79,20 @@ async function loadBoxes(query = '') {
       front.appendChild(actions);
 
       const back = document.createElement('div');
-      back.className = 'flip-back';
-      if (box.photo) {
-        const img = document.createElement('img');
-        img.src = `uploads/${box.photo}`;
-        img.alt = 'Box photo';
-        back.appendChild(img);
-      } else {
-        back.textContent = 'No photo available';
-      }
+back.className = 'flip-back';
+
+if (box.photo) {
+  console.log('🧠 box.photo =', box.photo); // ✅ Log the photo value
+  const img = document.createElement('img');
+  img.src = `/uploads/${box.photo}`;
+  img.alt = 'Box photo';
+  img.style.border = '2px solid lime'; // force style for now
+  back.appendChild(img);
+} else {
+  console.warn('⚠️ No photo for box:', box);
+  back.textContent = 'No photo available';
+}
+
 
       inner.appendChild(front);
       inner.appendChild(back);
