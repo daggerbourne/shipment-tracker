@@ -135,6 +135,10 @@ button:hover {
   z-index: 2;
 }
 
+.flip-front[style*="#6c757d"] {
+  color: #fff;
+}
+
 .flip-back {
   transform: rotateY(180deg);
   background: #000;
