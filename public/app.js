@@ -149,15 +149,18 @@ if (fileInput.files.length > 0) {
   photoFilename = data.filename;
 }
 
-    const box = {
-      label: {
-        color: document.getElementById('labelColor').value,
-        text: document.getElementById('labelText').value
-      },
-      items: document.getElementById('items').value.split(',').map(i => i.trim()).filter(i => i),
-      destination: document.getElementById('destination').value,
-      photo: photoFilename
-    };
+   const box = {
+  label: {
+    color: document.getElementById('labelColor').value,
+    text: document.getElementById('labelText').value
+  },
+  items: document.getElementById('items').value.split(',').map(i => i.trim()).filter(i => i),
+  destination: document.getElementById('destination').value
+};
+
+    if (photoFilename) {
+      box.photo = photoFilename;
+    }
 
     if (!box.label.text || !box.destination || !box.items.length) {
       throw new Error('All fields except photo are required');
