@@ -122,15 +122,17 @@ button:hover {
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  padding: 15px;
   box-sizing: border-box;
 }
+
+
 
 .flip-front {
   z-index: 2;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
+  padding: 15px; /* ← move padding here */
 }
 
 .flip-back {
@@ -139,7 +141,7 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1; 
+  z-index: 1;
 }
 
 .flip-back img {
