@@ -123,7 +123,13 @@ app.get('/api/boxes', authenticate, (req, res) => res.json(boxes));
 // ✍️ Only Contributors can add/edit/delete
 app.post('/api/boxes', authenticate, requireRole('contributor'), async (req, res) => {
   try {
-    const box = { id: uuidv4(), ...req.body };
+    const box = {
+      id: uuidv4(),
+      label: req.body.label,
+      items: req.body.items,
+      destination: req.body.destination,
+      photo: req.body.photo || ''  // ✅ Ensure photo is explicitly set
+    };
     boxes.push(box);
     await fs.writeFile(DATA_FILE, JSON.stringify(boxes, null, 2));
     res.status(201).json({ message: 'Box added', id: box.id });
@@ -132,13 +138,21 @@ app.post('/api/boxes', authenticate, requireRole('contributor'), async (req, res
   }
 });
 
+
 // PUT box
 app.put('/api/boxes/:id', authenticate, requireRole('contributor'), async (req, res) => {
   try {
     const id = req.params.id;
     const index = boxes.findIndex(box => box.id === id);
     if (index !== -1) {
-      boxes[index] = { id, ...req.body };
+      const existing = boxes[index];
+      boxes[index] = {
+        id,
+        label: req.body.label || existing.label,
+        items: req.body.items || existing.items,
+        destination: req.body.destination || existing.destination,
+        photo: req.body.photo !== undefined ? req.body.photo : existing.photo  // ✅ Preserve or update
+      };
       await fs.writeFile(DATA_FILE, JSON.stringify(boxes, null, 2));
       res.json({ message: 'Box updated' });
     } else {
