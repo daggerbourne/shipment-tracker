@@ -53,6 +53,7 @@ fileFilter: (req, file, cb) => {
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads'))); // ✅ Serve image uploads
 app.use('/api', authRoutes);
 
 let boxes = [];
