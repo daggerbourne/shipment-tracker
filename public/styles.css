@@ -222,6 +222,15 @@ button:hover {
   margin: auto;
 }
 
+.logo-svg {
+  display: block;
+  max-width: 200px;
+  width: 90%;
+  height: auto;
+  margin: 0 auto 1em auto;
+  filter: drop-shadow(0 0 6px rgba(0, 255, 0, 0.6)); /* optional neon glow */
+}
+
 
 /* Responsive tweaks */
 @media (max-width: 600px) {
